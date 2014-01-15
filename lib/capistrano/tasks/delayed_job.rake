@@ -40,6 +40,17 @@ namespace :delayed_job do
     end
   end
 
+  desc "Reload the delayed_job process"
+  task :reload do
+    on roles(delayed_job_roles) do
+      within release_path do
+        with rails_env: rails_env do
+          execute delayed_job_command, "reload #{args}"
+        end
+      end
+    end
+  end
+
   desc "Restart the delayed_job process"
   task :restart do
     on roles(delayed_job_roles) do
